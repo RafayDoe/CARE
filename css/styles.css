@@ -1,23 +1,76 @@
-:root{
+:root {
   --primary: #ffffff;
   --secondary: #78c7ff;
   --tertiary: #4cb28b;
+  --Quaternary: #fc9bab;
   --fontcolor: #333333;
 }
 
 * {
   margin: 0;
   padding: 0;
+  font-family: "DM Sans", Verdana;
 }
 
 body {
   background-color: var(--primary);
   color: var(--fontcolor);
 }
+
 .card {
   background-color: var(--primary);
 }
 
 .navbar {
-  background-color: var(--secondary);
+  background-color: var(--secondary) !important;
+  color: var(--fontcolor);
+  min-height: 50px;
+}
+
+.nav-link {
+  font-family: "DM Sans" !important;
+}
+
+#hero {
+  background-image: url(/Project/assets/bghero.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  min-height: 500px;
+}
+
+#hero .cover {
+  width: 100%;
+  min-height: 500px;
+  background-color: rgba(53, 53, 53, 0.500);
+}
+
+.btn-tertiary {
+  background-color: var(--tertiary) !important;
+  border: 1px solid var(--tertiary);
+}
+
+.btn-quaternary {
+  background-color: var(--Quaternary) !important;
+  border: 1px solid var(--Quaternary);
+}
+
+.card {
+  max-width: 200px;
+  background-color: var(--primary) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+
+.card-img-top{
+  max-width: 200px !important;
+}
+
+.card-title {
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.card-text {
+  font-size: 15px;
 }
