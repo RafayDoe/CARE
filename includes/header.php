@@ -36,20 +36,26 @@ if (session_status() === PHP_SESSION_NONE) {
       </button>
 
       <div class="collapse navbar-collapse" id="mainNavbar">
-        <ul class="navbar-nav ms-auto align-items-center">
+        <?php
+        $currentPage = basename($_SERVER['PHP_SELF']);
+        $isAuthPage = in_array($currentPage, ['login.php', 'register.php']);
+        ?>
 
-          <li class="nav-item"><a class="nav-link text-white px-3" href="/Project/index.php#hero">Home</a></li>
-          <li class="nav-item"><a class="nav-link text-white px-3" href="#doctors">Doctors</a></li>
-          <li class="nav-item"><a class="nav-link text-white px-3" href="#about">About</a></li>
+        <ul class="navbar-nav ms-auto align-items-center">
+          <?php if (!$isAuthPage): ?>
+            <li class="nav-item"><a class="nav-link text-white px-3" href="/Project/index.php#hero">Home</a></li>
+            <li class="nav-item"><a class="nav-link text-white px-3" href="#doctors">Doctors</a></li>
+            <li class="nav-item"><a class="nav-link text-white px-3" href="#about">About</a></li>
+          <?php endif; ?>
 
           <?php if (!isset($_SESSION['role'])): ?>
-            <li class="nav-item"><a class="nav-link text-white px-3" href="#patient-controls">Patients</a></li>
-            <li class="nav-item"><a class="nav-link text-white px-3" href="#doctor-cta">Join Us</a></li>
-
+            <?php if (!$isAuthPage): ?>
+              <li class="nav-item"><a class="nav-link text-white px-3" href="#patient-controls">Patients</a></li>
+              <li class="nav-item"><a class="nav-link text-white px-3" href="#doctor-cta">Join Us</a></li>
+            <?php endif; ?>
             <li class="nav-item ms-2">
               <a href="/Project/auth/login.php" class="btn btn-light btn-sm px-3">Login</a>
             </li>
-
           <?php else: ?>
             <li class="nav-item ms-2">
               <?php if ($_SESSION['role'] === 'patient'): ?>
@@ -66,6 +72,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </li>
           <?php endif; ?>
         </ul>
+
 
       </div>
     </div>
