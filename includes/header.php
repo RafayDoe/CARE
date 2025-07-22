@@ -1,3 +1,9 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,42 +11,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CARE - Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+    rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="../Project/css/styles.css?v=2">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/Project/css/styles.css?v=<?= time(); ?>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
-<body>
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70" tabindex="0">
 
-  <nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand ms-3" href="../Project/index.php">
-        Care
+  <nav class="navbar navbar-expand-lg sticky-top shadow-sm"
+    style="background-color: var(--secondary); border-bottom: 1px solid rgba(0,0,0,0.05);">
+    <div class="container-fluid px-3">
+      <a class="navbar-brand fw-bold text-white fs-4" href="/Project/index.php#hero">
+        CARE
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
 
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav ms-auto align-items-center">
 
-      <div class="collapse navbar-collapse p-2" id="mainNavbar">
-        <ul class="navbar-nav ms-auto gap-2">
-          <li class="nav-item">
-            <a class="nav-link" href="index.php">Home</a>
-          </li>
+          <li class="nav-item"><a class="nav-link text-white px-3" href="/Project/index.php#hero">Home</a></li>
+          <li class="nav-item"><a class="nav-link text-white px-3" href="#doctors">Doctors</a></li>
+          <li class="nav-item"><a class="nav-link text-white px-3" href="#about">About</a></li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#services">Services</a>
-          </li>
+          <?php if (!isset($_SESSION['role'])): ?>
+            <li class="nav-item"><a class="nav-link text-white px-3" href="#patient-controls">Patients</a></li>
+            <li class="nav-item"><a class="nav-link text-white px-3" href="#doctor-cta">Join Us</a></li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#about">About</a>
-          </li>
+            <li class="nav-item ms-2">
+              <a href="/Project/auth/login.php" class="btn btn-light btn-sm px-3">Login</a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">Contact</a>
-          </li>
+          <?php else: ?>
+            <li class="nav-item ms-2">
+              <?php if ($_SESSION['role'] === 'patient'): ?>
+                <a href="/Project/patient/index.php" class="nav-link text-white px-3">Dashboard</a>
+              <?php elseif ($_SESSION['role'] === 'doctor'): ?>
+                <a href="/Project/doctor/index.php" class="nav-link text-white px-3">Dashboard</a>
+              <?php elseif ($_SESSION['role'] === 'admin'): ?>
+                <a href="/Project/admin/index.php" class="nav-link text-white px-3">Admin Panel</a>
+              <?php endif; ?>
+            </li>
+
+            <li class="nav-item ms-2">
+              <a href="/Project/auth/logout.php" class="btn btn-light btn-sm px-3">Logout</a>
+            </li>
+          <?php endif; ?>
         </ul>
+
       </div>
     </div>
   </nav>

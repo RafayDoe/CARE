@@ -12,5 +12,5 @@ if (ini_get("session.use_cookies")) {
   );
 }
 
-header("Location: /Project/patient/login.php");
+header("Location: /Project/login.php");
 exit();
