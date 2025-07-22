@@ -8,7 +8,6 @@ include('../includes/header.php');
 <style>
   .dashboard-bg {
     background-image: url('/Project/assets/bgcurve.png');
-    /* add any soft abstract image here */
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -107,11 +106,6 @@ $result = $stmt->get_result();
       Stay hydrated. Drinking enough water helps regulate your body temperature, improve digestion, and boost energy.
     </p>
   </div>
-</div>
-
-<div class="text-center my-5">
-  <p>Logout from current session</p>
-  <a href="/Project/logout.php" class="btn btn-danger px-4">Logout</a>
 </div>
 
 
