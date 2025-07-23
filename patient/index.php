@@ -54,16 +54,6 @@ include('../includes/header.php');
           <a href="appointments.php" class="btn btn-tertiary mt-3">View</a>
         </div>
       </div>
-
-
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
-        <div class="card glass-card text-center border-0 h-100 p-4">
-          <i class="bi bi-file-earmark-medical display-4 text-tertiary mb-3"></i>
-          <h5 class="fw-bold mb-2">View Prescriptions</h5>
-          <p class="text-muted">Access your medical records and treatment notes.</p>
-          <a href="prescriptions.php" class="btn btn-tertiary mt-3">Access</a>
-        </div>
-      </div>
     </div>
   </div>
 </section>

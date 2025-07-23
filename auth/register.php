@@ -10,6 +10,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
     $password = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
     $role = $_POST['role'];
+    $name = trim($_POST['name']);
+    $city = trim($_POST['city']);
+    $address = trim($_POST['address']);
+    $phone = trim($_POST['phone']);
 
     $specialization = $_POST['specialization'] ?? null;
     $experience = $_POST['experience'] ?? null;
@@ -17,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$username || !$email || !$role) {
         $registerError = "Please fill in all required fields.";
     } else {
-        // Check for duplicates
         $check = $conn->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
         $check->bind_param("ss", $email, $username);
         $check->execute();
@@ -37,6 +40,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt2->bind_param("issi", $user_id, $username, $specialization, $experience);
                     $stmt2->execute();
                 }
+                if ($role === 'patient') {
+                    $stmt = $conn->prepare("INSERT INTO patients (user_id, name, email, phone, address, city) VALUES (?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("isssss", $user_id, $username, $email, $phone, $address, $city);
+                    $stmt->execute();
+                }
+
+
+
+
 
                 $success = "Registered successfully! You can now log in.";
             } else {
@@ -44,6 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
+
+
 }
 ?>
 
@@ -60,11 +74,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="alert alert-success text-center"><?php echo $success; ?></div>
             <?php endif; ?>
 
-            <form method="POST" action="">
+            <form method="POST" action="" onsubmit="this.querySelector('button[type=submit]').disabled = true;">
+
                 <div class="mb-3">
                     <label class="form-label">Username</label>
                     <input type="text" name="username" class="form-control" required>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+
 
                 <div class="mb-3">
                     <label class="form-label">Email</label>
@@ -74,6 +94,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="mb-3">
                     <label class="form-label">Password</label>
                     <input type="password" name="password" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Address</label>
+                    <input type="text" name="address" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">City</label>
+                    <input type="text" name="city" class="form-control" required>
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" name="phone" class="form-control" required>
                 </div>
 
                 <div class="mb-3">

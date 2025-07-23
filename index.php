@@ -1,4 +1,6 @@
-<?php include("./includes/header.php") ?>
+<?php include("./includes/header.php")
+?>
+
 
 <section id="hero">
     <div class="container-fluid cover d-flex flex-column justify-content-center">
@@ -11,10 +13,10 @@
                     Empowering lives through accessible care.
                 </p>
                 <div data-aos="fade-up" data-aos-delay="400">
-                    <a href="/Project/doctor/register.php">
+                    <a href="/Project/auth/register.php">
                         <button class="btn btn-tertiary me-1">Register</button>
                     </a>
-                    <a href="/Project/patient/login.php">
+                    <a href="/Project/auth/login.php">
                         <button class="btn btn-quaternary">Login</button>
                     </a>
                 </div>

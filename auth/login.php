@@ -27,6 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: /Project/doctor/index.php");
       } elseif ($user['role'] === 'patient') {
         header("Location: /Project/patient/index.php");
+      } elseif ($user['role'] === 'admin') {
+        header("Location: /Project/admin/cities.php");
       } else {
         $loginError = "Unrecognized user role.";
       }
