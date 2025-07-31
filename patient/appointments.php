@@ -2,7 +2,7 @@
 session_start();
 include('../includes/db.php');
 
-// Check login
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'patient') {
     header("Location: ../auth/login.php");
     exit;
@@ -11,7 +11,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'patient') {
 $patient_id = $_SESSION['user_id'];
 $message = "";
 
-// Cancel appointment
 if (isset($_GET['cancel'])) {
     $cancel_id = intval($_GET['cancel']);
     $stmt = $conn->prepare("DELETE FROM appointments WHERE id = ? AND patient_id = ?");

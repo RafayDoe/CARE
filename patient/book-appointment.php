@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $time = $_POST['time'] ?? '';
     $userId = $_SESSION['user_id'] ?? null;
 
-    // Get patient ID from patients table
+
     $getPatient = $conn->prepare("SELECT id FROM patients WHERE user_id = ?");
     $getPatient->bind_param("i", $userId);
     $getPatient->execute();
