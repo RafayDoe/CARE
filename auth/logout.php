@@ -12,5 +12,5 @@ if (ini_get("session.use_cookies")) {
   );
 }
 
-header("Location: /Project/auth/login.php");
+header("Location: ./login.php");
 exit();

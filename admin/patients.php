@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 $message = "";
 
+
 if (isset($_GET['delete'])) {
     $patId = intval($_GET['delete']);
     $get = $conn->prepare("SELECT user_id FROM patients WHERE id = ?");
@@ -49,8 +50,6 @@ if (isset($_POST['add_patient'])) {
         $message = "Username or Email already exists.";
     }
 }
-
-
 if (isset($_POST['edit_patient'])) {
     $patId = $_POST['pat_id'];
     $name = $_POST['edit_name'];
@@ -63,16 +62,21 @@ if (isset($_POST['edit_patient'])) {
     $getUser->execute();
     $uid = $getUser->get_result()->fetch_assoc()['user_id'];
 
-    $conn->prepare("UPDATE patients SET name=? WHERE id=?")
-        ->bind_param("si", $name, $patId)->execute();
+    $patUpdate = $conn->prepare("UPDATE patients SET name=? WHERE id=?");
+    $patUpdate->bind_param("si", $name, $patId);
+    $patUpdate->execute();
 
-    $conn->prepare("UPDATE users SET email=?, address=?, phone=? WHERE id=?")
-        ->bind_param("sssi", $email, $address, $phone, $uid)->execute();
+    $userUpdate = $conn->prepare("UPDATE users SET email=?, address=?, phone=? WHERE id=?");
+    $userUpdate->bind_param("sssi", $email, $address, $phone, $uid);
+    $userUpdate->execute();
 
     $message = "Patient updated.";
 }
 
-$patients = $conn->query("SELECT p.*, u.email, u.phone, u.address, u.username FROM patients p JOIN users u ON p.user_id = u.id WHERE u.role = 'patient'");
+$patients = $conn->query("SELECT p.*, u.email, u.phone, u.address, u.username 
+                          FROM patients p 
+                          JOIN users u ON p.user_id = u.id 
+                          WHERE u.role = 'patient'");
 ?>
 
 <?php include('../includes/header.php'); ?>
@@ -91,7 +95,7 @@ $patients = $conn->query("SELECT p.*, u.email, u.phone, u.address, u.username FR
     <h2 class="text-center mb-4 fw-bold text-secondary">Manage Patients</h2>
 
     <?php if ($message): ?>
-        <div class="alert alert-info text-center"><?= $message ?></div>
+        <div class="alert alert-info text-center"><?= htmlspecialchars($message) ?></div>
     <?php endif; ?>
 
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">+ Add Patient</button>
@@ -109,13 +113,16 @@ $patients = $conn->query("SELECT p.*, u.email, u.phone, u.address, u.username FR
                 </tr>
             </thead>
             <tbody>
-                <?php while ($pat = $patients->fetch_assoc()): ?>
+                <?php 
+                $editModals = "";
+
+                while ($pat = $patients->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($pat['name']) ?></td>
-                        <td><?= htmlspecialchars($pat['username']) ?></td>
-                        <td><?= htmlspecialchars($pat['email']) ?></td>
-                        <td><?= htmlspecialchars($pat['phone']) ?></td>
-                        <td><?= htmlspecialchars($pat['address']) ?></td>
+                        <td><?= htmlspecialchars($pat['name'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($pat['username'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($pat['email'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($pat['phone'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($pat['address'] ?? '') ?></td>
                         <td>
                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                 data-bs-target="#editModal<?= $pat['id'] ?>">Edit</button>
@@ -124,11 +131,12 @@ $patients = $conn->query("SELECT p.*, u.email, u.phone, u.address, u.username FR
                         </td>
                     </tr>
 
-
-                    <div class="modal fade" id="editModal<?= $pat['id'] ?>" tabindex="-1">
+                    <?php 
+                    $editModals .= '
+                    <div class="modal fade" id="editModal'.$pat['id'].'" tabindex="-1">
                         <div class="modal-dialog">
                             <form method="POST" class="modal-content">
-                                <input type="hidden" name="pat_id" value="<?= $pat['id'] ?>">
+                                <input type="hidden" name="pat_id" value="'.$pat['id'].'">
                                 <div class="modal-header">
                                     <h5 class="modal-title">Edit Patient</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -138,22 +146,22 @@ $patients = $conn->query("SELECT p.*, u.email, u.phone, u.address, u.username FR
                                     <div class="mb-2">
                                         <label class="form-label">Name</label>
                                         <input type="text" name="edit_name" class="form-control"
-                                            value="<?= htmlspecialchars($pat['name']) ?>" required>
+                                            value="'.htmlspecialchars($pat['name'] ?? '').'" required>
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">Email</label>
                                         <input type="email" name="edit_email" class="form-control"
-                                            value="<?= htmlspecialchars($pat['email']) ?>" required>
+                                            value="'.htmlspecialchars($pat['email'] ?? '').'" required>
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">Phone</label>
                                         <input type="text" name="edit_phone" class="form-control"
-                                            value="<?= htmlspecialchars($pat['phone']) ?>" required>
+                                            value="'.htmlspecialchars($pat['phone'] ?? '').'" required>
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">Address</label>
                                         <input type="text" name="edit_address" class="form-control"
-                                            value="<?= htmlspecialchars($pat['address']) ?>" required>
+                                            value="'.htmlspecialchars($pat['address'] ?? '').'" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -162,11 +170,14 @@ $patients = $conn->query("SELECT p.*, u.email, u.phone, u.address, u.username FR
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div>';
+                    ?>
                 <?php endwhile; ?>
             </tbody>
         </table>
     </div>
+
+    <?= $editModals ?>
 
     <div class="modal fade" id="addModal" tabindex="-1">
         <div class="modal-dialog">

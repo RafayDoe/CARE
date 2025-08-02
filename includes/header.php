@@ -16,7 +16,7 @@ if (session_status() === PHP_SESSION_NONE) {
     rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="/Project/css/styles.css?v=<?= time(); ?>">
+  <link rel="stylesheet" href="/css/styles.css?v=<?= time(); ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.js"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -54,21 +54,21 @@ if (session_status() === PHP_SESSION_NONE) {
               <li class="nav-item"><a class="nav-link text-white px-3" href="#doctor-cta">Join Us</a></li>
             <?php endif; ?>
             <li class="nav-item ms-2">
-              <a href="/Project/auth/login.php" class="btn btn-light btn-sm px-3">Login</a>
+              <a href="/auth/login.php" class="btn btn-light btn-sm px-3">Login</a>
             </li>
           <?php else: ?>
             <li class="nav-item ms-2">
               <?php if ($_SESSION['role'] === 'patient'): ?>
-                <a href="/Project/patient/index.php" class="nav-link text-white px-3">Dashboard</a>
+                <a href="/patient/index.php" class="nav-link text-white px-3">Dashboard</a>
               <?php elseif ($_SESSION['role'] === 'doctor'): ?>
-                <a href="/Project/doctor/index.php" class="nav-link text-white px-3">Dashboard</a>
+                <a href="/doctor/index.php" class="nav-link text-white px-3">Dashboard</a>
               <?php elseif ($_SESSION['role'] === 'admin'): ?>
-                <a href="/Project/admin/index.php" class="nav-link text-white px-3">Admin Panel</a>
+                <a href="/admin/index.php" class="nav-link text-white px-3">Admin Panel</a>
               <?php endif; ?>
             </li>
 
             <li class="nav-item ms-2">
-              <a href="/Project/auth/logout.php" class="btn btn-light btn-sm px-3">Logout</a>
+              <a href="../auth/logout.php" class="btn btn-light btn-sm px-3">Logout</a>
             </li>
           <?php endif; ?>
         </ul>

@@ -42,7 +42,7 @@ body {
 }
 
 #hero {
-  background-image: url(/Project/assets/bghero.jpg);
+  background-image: url(../assets/bghero.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 0 0;

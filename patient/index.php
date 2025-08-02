@@ -7,7 +7,7 @@ include('../includes/header.php');
 
 <style>
   .dashboard-bg {
-    background-image: url('/Project/assets/bgcurve.png');
+    background-image: url('../assets/bgcurve.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -41,7 +41,7 @@ include('../includes/header.php');
           <i class="bi bi-calendar-plus display-4 text-tertiary mb-3"></i>
           <h5 class="fw-bold mb-2">Book Appointment</h5>
           <p class="text-muted">Easily schedule visits with available doctors.</p>
-          <a href="book-appointment.php" class="btn btn-tertiary mt-3">Book Now</a>
+          <a href="./book-appointment.php" class="btn btn-tertiary mt-3">Book Now</a>
         </div>
       </div>
 
@@ -51,7 +51,7 @@ include('../includes/header.php');
           <i class="bi bi-clock-history display-4 text-tertiary mb-3"></i>
           <h5 class="fw-bold mb-2">Your Appointments</h5>
           <p class="text-muted">Track upcoming or past visits and timings.</p>
-          <a href="appointments.php" class="btn btn-tertiary mt-3">View</a>
+          <a href="./appointments.php" class="btn btn-tertiary mt-3">View</a>
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@ $result = $stmt->get_result();
     </div>
   <?php else: ?>
     <div class="alert alert-light border text-muted text-center" style="max-width: 600px; margin: 0 auto;">
-      No upcoming appointments. <a href="book-appointment.php">Book one now</a>.
+      No upcoming appointments. <a href="./book-appointment.php">Book one now</a>.
     </div>
   <?php endif; ?>
 </div>

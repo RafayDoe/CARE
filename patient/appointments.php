@@ -57,7 +57,7 @@ include('../includes/header.php');
 <main>
     <div class="container my-5">
         <h2 class="mb-4 fw-bold text-secondary">My Appointments</h2>
-        <a href="book-appointment.php" class="btn btn-primary mb-4">Book New Appointment</a>
+        <a href="./book-appointment.php" class="btn btn-primary mb-4">Book New Appointment</a>
 
 
         <?php if ($message): ?>

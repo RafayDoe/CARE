@@ -1,6 +1,5 @@
-<?php include("./includes/header.php")
+<?php include("./includes/header.php");
 ?>
-
 
 <section id="hero">
     <div class="container-fluid cover d-flex flex-column justify-content-center">
@@ -13,10 +12,10 @@
                     Empowering lives through accessible care.
                 </p>
                 <div data-aos="fade-up" data-aos-delay="400">
-                    <a href="/Project/auth/register.php">
+                    <a href="/auth/register.php">
                         <button class="btn btn-tertiary me-1">Register</button>
                     </a>
-                    <a href="/Project/auth/login.php">
+                    <a href="/auth/login.php">
                         <button class="btn btn-quaternary">Login</button>
                     </a>
                 </div>
@@ -59,7 +58,7 @@
 
             <div class="col-md-4 d-flex justify-content-center">
               <div class="card shadow-sm h-100">
-                <img src="/Project/assets/<?= htmlspecialchars($row['image']) ?>" class="card-img-top"
+                <img src="/assets/<?= htmlspecialchars($row['image']) ?>" class="card-img-top"
                   alt="<?= htmlspecialchars($row['name']) ?>">
                 <div class="card-body">
                   <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
@@ -102,7 +101,7 @@
     <div class="container px-5">
         <div class="row align-items-center g-5">
             <div class="col-lg-6" data-aos="fade-up">
-                <img src="/Project/assets/aboutimg.png" alt="About CARE" class="img-fluid rounded" />
+                <img src="/assets/aboutimg.png" alt="About CARE" class="img-fluid rounded" />
             </div>
             <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
                 <h2 class="fw-bold mb-4">About CARE</h2>
@@ -138,7 +137,7 @@
                             <h5 class="card-title my-2">Book Appointments</h5>
                             <p class="card-text">Easily search and schedule appointments with verified doctors.</p>
                         </div>
-                        <a href="/Project/patient/login.php" class="btn btn-tertiary w-100 mt-4">Book Now</a>
+                        <a href="/auth/login.php" class="btn btn-tertiary w-100 mt-4">Book Now</a>
                     </div>
                 </div>
             </div>
@@ -150,7 +149,7 @@
                             <h5 class="card-title my-2">View Prescriptions</h5>
                             <p class="card-text">Access your prescription history and treatment plans anytime.</p>
                         </div>
-                        <a href="/Project/patient/login.php" class="btn btn-tertiary w-100 mt-4">Log In</a>
+                        <a href="/auth/login.php" class="btn btn-tertiary w-100 mt-4">Log In</a>
                     </div>
                 </div>
             </div>
@@ -178,10 +177,10 @@
                     <li class="mb-2"><i class="bi bi-check-circle-fill text-quaternary me-2"></i> Free profile creation
                     </li>
                 </ul>
-                <a href="/Project/doctor/register.php" class="btn btn-quaternary btn-lg mt-3">Join as Doctor</a>
+                <a href="/doctor/register.php" class="btn btn-quaternary btn-lg mt-3">Join as Doctor</a>
             </div>
             <div class="col-lg-6 text-center" data-aos="fade-left">
-                <img src="/Project/assets/cta.png" alt="Join as Doctor" class="img-fluid rounded shadow-sm"
+                <img src="/assets/cta.png" alt="Join as Doctor" class="img-fluid rounded shadow-sm"
                     style="max-height: 350px;" />
             </div>
         </div>

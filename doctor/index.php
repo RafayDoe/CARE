@@ -50,37 +50,37 @@ $appointments = $apptStmt->get_result();
 </style>
 
 <main>
-<div class="container my-5">
-    <h2 class="mb-4">Welcome, <?= htmlspecialchars($doctor_name) ?></h2>
-    <h4 class="mb-3">Your Appointments</h4>
+    <div class="container my-5">
+        <h2 class="mb-4">Welcome, <?= htmlspecialchars($doctor_name) ?></h2>
+        <h4 class="mb-3">Your Appointments</h4>
 
-    <?php if ($appointments->num_rows > 0): ?>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Patient Name</th>
-                        <th>Appointment Time</th>
-                        <th>Status</th>
-                        <th>Created At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($appt = $appointments->fetch_assoc()): ?>
+        <?php if ($appointments->num_rows > 0): ?>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td><?= htmlspecialchars($appt['patient_name']) ?></td>
-                            <td><?= htmlspecialchars($appt['appointment_time']) ?></td>
-                            <td><?= htmlspecialchars($appt['status']) ?></td>
-                            <td><?= htmlspecialchars($appt['created_at']) ?></td>
+                            <th>Patient Name</th>
+                            <th>Appointment Time</th>
+                            <th>Status</th>
+                            <th>Created At</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
-    <?php else: ?>
-        <div class="alert alert-info">You currently have no appointments.</div>
-    <?php endif; ?>
-</div>
+                    </thead>
+                    <tbody>
+                        <?php while ($appt = $appointments->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($appt['patient_name']) ?></td>
+                                <td><?= htmlspecialchars($appt['appointment_time']) ?></td>
+                                <td><?= htmlspecialchars($appt['status']) ?></td>
+                                <td><?= htmlspecialchars($appt['created_at']) ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php else: ?>
+            <div class="alert alert-info">You currently have no appointments.</div>
+        <?php endif; ?>
+    </div>
 </main>
 
 <?php include('../includes/footer.php'); ?>

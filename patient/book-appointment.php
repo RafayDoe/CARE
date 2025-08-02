@@ -97,7 +97,7 @@ if ($result && $result->num_rows > 0) {
         <div class="col-md-4 mb-3 d-flex justify-content-center">
           <div class="card text-center p-2">
             <?php if (!empty($doc['image'])): ?>
-              <img src="/Project/assets/<?= htmlspecialchars($doc['image']) ?>" class="card-img-top" alt="Doctor Image">
+              <img src="../assets/<?= htmlspecialchars($doc['image']) ?>" class="card-img-top" alt="Doctor Image">
             <?php endif; ?>
             <div class="card-body">
               <h5 class="card-title"><?= htmlspecialchars($doc['name']) ?></h5>

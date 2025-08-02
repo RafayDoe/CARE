@@ -59,3 +59,19 @@ VALUES (
   '$2y$10$ZzjFf9V1Q8tOqLdsS9T8fuqF6JoIh3g0XhZzQYsd0y7zIZlWB7I9C', 
   'admin'
 );
+
+INSERT INTO users (username, email, password, role, phone, address) VALUES
+('doc1', 'doc1@example.com', '1234', 'doctor', '03001234561', 'Clinic Street 1'),
+('doc2', 'doc2@example.com', '1234', 'doctor', '03001234562', 'Clinic Street 2'),
+('doc3', 'doc3@example.com', '1234', 'doctor', '03001234563', 'Clinic Street 3'),
+('doc4', 'doc4@example.com', '1234', 'doctor', '03001234564', 'Clinic Street 4'),
+('doc5', 'doc5@example.com', '1234', 'doctor', '03001234565', 'Clinic Street 5'),
+('doc6', 'doc6@example.com', '1234', 'doctor', '03001234566', 'Clinic Street 6');
+
+INSERT INTO doctors (user_id, name, specialization, experience, image) VALUES
+(2, 'Dr. John Smith', 'Cardiologist', 10, 'doctor1.png'),
+(3, 'Dr. Emily Johnson', 'Dentist', 7, 'doctor2.png'),
+(4, 'Dr. Michael Lee', 'Neurologist', 12, 'doctor3.png'),
+(5, 'Dr. Sarah Khan', 'Dermatologist', 5, 'doctor4.png'),
+(6, 'Dr. David Brown', 'Orthopedic Surgeon', 15, 'doctor5.png'),
+(7, 'Dr. Laura Wilson', 'Pediatrician', 8, 'doctor6.png');

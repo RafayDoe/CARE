@@ -24,11 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $_SESSION['role'] = $user['role'];
 
       if ($user['role'] === 'doctor') {
-        header("Location: /Project/doctor/index.php");
+        header("Location: ../doctor/index.php");
       } elseif ($user['role'] === 'patient') {
-        header("Location: /Project/patient/index.php");
+        header("Location: ../patient/index.php");
       } elseif ($user['role'] === 'admin') {
-        header("Location: /Project/admin/cities.php");
+        header("Location: ../admin/index.php");
       } else {
         $loginError = "Unrecognized user role.";
       }
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <p class="text-center mt-4 text-muted">
         Don't have an account?
-        <a href="/Project/auth/register.php" class="text-quaternary">Register</a>
+        <a href="./register.php" class="text-quaternary">Register</a>
        
       </p>
     </div>

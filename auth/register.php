@@ -138,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <p class="text-center mt-3 text-muted">
-                    Already have an account? <a href="/Project/auth/login.php" class="text-quaternary">Login</a>
+                    Already have an account? <a href="./login.php" class="text-quaternary">Login</a>
                 </p>
             </form>
         </div>
