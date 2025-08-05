@@ -81,6 +81,17 @@ $doctors = $conn->query("SELECT d.*, u.email, u.phone, u.address, u.username FRO
 
 <?php include('../includes/header.php'); ?>
 
+<style>
+    main {
+        min-height: 90vh;
+    }
+
+    .container {
+        text-align: center;
+    }
+</style>
+
+<main>
 <div class="container my-5">
     <h2 class="text-center mb-4 fw-bold text-secondary">Manage Doctors</h2>
 
@@ -215,5 +226,6 @@ $doctors = $conn->query("SELECT d.*, u.email, u.phone, u.address, u.username FRO
         </div>
     </div>
 </div>
+</main>
 
 <?php include('../includes/footer.php'); ?>

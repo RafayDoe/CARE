@@ -30,8 +30,9 @@ if (isset($_POST['add_user'])) {
     $check = $conn->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
     $check->bind_param("ss", $email, $username);
     $check->execute();
+    $check->store_result();
 
-    if ($check->get_result()->num_rows == 0) {
+    if ($check->num_rows == 0) {
         $stmt = $conn->prepare("INSERT INTO users (username, email, password, role, address, phone) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $username, $email, $password, $role, $address, $phone);
         $stmt->execute();
@@ -91,8 +92,10 @@ $users = $conn->query("SELECT * FROM users");
                         <td><?= htmlspecialchars($u['phone']) ?></td>
                         <td><?= htmlspecialchars($u['address']) ?></td>
                         <td>
-                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?= $u['id'] ?>">Edit</button>
-                            <a href="?delete=<?= $u['id'] ?>" onclick="return confirm('Delete this user?')" class="btn btn-sm btn-danger">Delete</a>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#editModal<?= $u['id'] ?>">Edit</button>
+                            <a href="?delete=<?= $u['id'] ?>" onclick="return confirm('Delete this user?')"
+                                class="btn btn-sm btn-danger">Delete</a>
                         </td>
                     </tr>
 
@@ -107,27 +110,32 @@ $users = $conn->query("SELECT * FROM users");
                                     <input type="hidden" name="user_id" value="<?= $u['id'] ?>">
                                     <div class="mb-2">
                                         <label>Email</label>
-                                        <input type="email" name="edit_email" class="form-control" value="<?= htmlspecialchars($u['email']) ?>" required>
+                                        <input type="email" name="edit_email" class="form-control"
+                                            value="<?= htmlspecialchars($u['email']) ?>" required>
                                     </div>
                                     <div class="mb-2">
                                         <label>Username</label>
-                                        <input type="text" name="edit_username" class="form-control" value="<?= htmlspecialchars($u['username']) ?>" required>
+                                        <input type="text" name="edit_username" class="form-control"
+                                            value="<?= htmlspecialchars($u['username']) ?>" required>
                                     </div>
                                     <div class="mb-2">
                                         <label>Role</label>
                                         <select name="edit_role" class="form-control" required>
-                                            <option value="admin" <?= $u['role']=='admin'?'selected':'' ?>>Admin</option>
-                                            <option value="doctor" <?= $u['role']=='doctor'?'selected':'' ?>>Doctor</option>
-                                            <option value="patient" <?= $u['role']=='patient'?'selected':'' ?>>Patient</option>
+                                            <option value="admin" <?= $u['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
+                                            <option value="doctor" <?= $u['role'] == 'doctor' ? 'selected' : '' ?>>Doctor</option>
+                                            <option value="patient" <?= $u['role'] == 'patient' ? 'selected' : '' ?>>Patient
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="mb-2">
                                         <label>Phone</label>
-                                        <input type="text" name="edit_phone" class="form-control" value="<?= htmlspecialchars($u['phone']) ?>">
+                                        <input type="text" name="edit_phone" class="form-control"
+                                            value="<?= htmlspecialchars($u['phone']) ?>">
                                     </div>
                                     <div class="mb-2">
                                         <label>Address</label>
-                                        <input type="text" name="edit_address" class="form-control" value="<?= htmlspecialchars($u['address']) ?>">
+                                        <input type="text" name="edit_address" class="form-control"
+                                            value="<?= htmlspecialchars($u['address']) ?>">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
