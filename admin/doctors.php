@@ -67,11 +67,15 @@ if (isset($_POST['edit_doctor'])) {
     $getUser->execute();
     $uid = $getUser->get_result()->fetch_assoc()['user_id'];
 
-    $conn->prepare("UPDATE doctors SET name=?, specialization=?, experience=? WHERE id=?")
-        ->bind_param("ssii", $name, $specialization, $experience, $docId)->execute();
+    $stmt = $conn->prepare("UPDATE doctors SET name=?, specialization=?, experience=? WHERE id=?");
+    $stmt->bind_param("ssii", $name, $specialization, $experience, $docId);
+    $stmt->execute();
 
-    $conn->prepare("UPDATE users SET email=?, address=?, phone=? WHERE id=?")
-        ->bind_param("sssi", $email, $address, $phone, $uid)->execute();
+
+    $stmt = $conn->prepare("UPDATE users SET email=?, address=?, phone=? WHERE id=?");
+    $stmt->bind_param("sssi", $email, $address, $phone, $uid);
+    $stmt->execute();
+
 
     $message = "Doctor updated.";
 }
@@ -92,91 +96,101 @@ $doctors = $conn->query("SELECT d.*, u.email, u.phone, u.address, u.username FRO
 </style>
 
 <main>
-<div class="container my-5">
-    <h2 class="text-center mb-4 fw-bold text-secondary">Manage Doctors</h2>
+    <div class="container my-5">
+        <h2 class="text-center mb-4 fw-bold text-secondary">Manage Doctors</h2>
 
-    <?php if ($message): ?>
-        <div class="alert alert-info text-center"><?= $message ?></div>
-    <?php endif; ?>
+        <?php if ($message): ?>
+            <div class="alert alert-info text-center"><?= $message ?></div>
+        <?php endif; ?>
 
-    
-    <div class="table-responsive">
-        <table class="table table-bordered text-center align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th>Name</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Specialization</th>
-                    <th>Experience</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($doc = $doctors->fetch_assoc()): ?>
+
+        <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
                     <tr>
-                        <td><?= htmlspecialchars($doc['name']) ?></td>
-                        <td><?= htmlspecialchars($doc['username']) ?></td>
-                        <td><?= htmlspecialchars($doc['email']) ?></td>
-                        <td><?= htmlspecialchars($doc['specialization']) ?></td>
-                        <td><?= htmlspecialchars($doc['experience']) ?> yrs</td>
-                        <td><?= htmlspecialchars($doc['phone']) ?></td>
-                        <td><?= htmlspecialchars($doc['address']) ?></td>
-                        <td>
-                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?= $doc['id'] ?>">Edit</button>
-                            <a href="?delete=<?= $doc['id'] ?>" onclick="return confirm('Delete this doctor?')" class="btn btn-sm btn-danger">Delete</a>
-                        </td>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Specialization</th>
+                        <th>Experience</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Actions</th>
                     </tr>
-                    
-                    <div class="modal fade" id="editModal<?= $doc['id'] ?>" tabindex="-1">
-                        <div class="modal-dialog">
-                            <form method="POST" class="modal-content">
-                                <input type="hidden" name="doc_id" value="<?= $doc['id'] ?>">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Edit Doctor</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-2">
-                                        <label class="form-label">Name</label>
-                                        <input type="text" name="edit_name" class="form-control" value="<?= htmlspecialchars($doc['name']) ?>" required>
+                </thead>
+                <tbody>
+                    <?php while ($doc = $doctors->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($doc['name']) ?></td>
+                            <td><?= htmlspecialchars($doc['username']) ?></td>
+                            <td><?= htmlspecialchars($doc['email']) ?></td>
+                            <td><?= htmlspecialchars($doc['specialization']) ?></td>
+                            <td><?= htmlspecialchars($doc['experience']) ?> yrs</td>
+                            <td><?= htmlspecialchars($doc['phone']) ?></td>
+                            <td><?= htmlspecialchars($doc['address']) ?></td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#editModal<?= $doc['id'] ?>">Edit</button>
+                                <a href="?delete=<?= $doc['id'] ?>" onclick="return confirm('Delete this doctor?')"
+                                    class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+
+                        <div class="modal fade" id="editModal<?= $doc['id'] ?>" tabindex="-1">
+                            <div class="modal-dialog">
+                                <form method="POST" class="modal-content">
+                                    <input type="hidden" name="doc_id" value="<?= $doc['id'] ?>">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Doctor</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
-                                    <div class="mb-2">
-                                        <label class="form-label">Specialization</label>
-                                        <input type="text" name="edit_specialization" class="form-control" value="<?= htmlspecialchars($doc['specialization']) ?>" required>
+                                    <div class="modal-body">
+                                        <div class="mb-2">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" name="edit_name" class="form-control"
+                                                value="<?= htmlspecialchars($doc['name']) ?>" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Specialization</label>
+                                            <input type="text" name="edit_specialization" class="form-control"
+                                                value="<?= htmlspecialchars($doc['specialization']) ?>" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Experience (years)</label>
+                                            <input type="number" name="edit_experience" class="form-control"
+                                                value="<?= htmlspecialchars($doc['experience']) ?>" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" name="edit_email" class="form-control"
+                                                value="<?= htmlspecialchars($doc['email']) ?>" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Phone</label>
+                                            <input type="text" name="edit_phone" class="form-control"
+                                                value="<?= htmlspecialchars($doc['phone']) ?>" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" name="edit_address" class="form-control"
+                                                value="<?= htmlspecialchars($doc['address']) ?>" required>
+                                        </div>
                                     </div>
-                                    <div class="mb-2">
-                                        <label class="form-label">Experience (years)</label>
-                                        <input type="number" name="edit_experience" class="form-control" value="<?= htmlspecialchars($doc['experience']) ?>" required>
+                                    <div class="modal-footer">
+                                        <button type="submit" name="edit_doctor" class="btn btn-success">Save
+                                            Changes</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
                                     </div>
-                                    <div class="mb-2">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" name="edit_email" class="form-control" value="<?= htmlspecialchars($doc['email']) ?>" required>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label class="form-label">Phone</label>
-                                        <input type="text" name="edit_phone" class="form-control" value="<?= htmlspecialchars($doc['phone']) ?>" required>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label class="form-label">Address</label>
-                                        <input type="text" name="edit_address" class="form-control" value="<?= htmlspecialchars($doc['address']) ?>" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" name="edit_doctor" class="btn btn-success">Save Changes</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                    </div>
                     <?php endwhile; ?>
                 </tbody>
             </table>
         </div>
         <button class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#addModal">+ Add Doctor</button>
-        
+
         <div class="modal fade" id="addModal" tabindex="-1">
             <div class="modal-dialog">
                 <form method="POST" class="modal-content">
@@ -193,39 +207,39 @@ $doctors = $conn->query("SELECT d.*, u.email, u.phone, u.address, u.username FRO
                             <label class="form-label">Username</label>
                             <input type="text" name="username" class="form-control" required>
                         </div>
-                    <div class="mb-2">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" required>
+                        <div class="mb-2">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Address</label>
+                            <input type="text" name="address" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Specialization</label>
+                            <input type="text" name="specialization" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Experience (years)</label>
+                            <input type="number" name="experience" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
                     </div>
-                    <div class="mb-2">
-                        <label class="form-label">Phone</label>
-                        <input type="text" name="phone" class="form-control" required>
+                    <div class="modal-footer">
+                        <button type="submit" name="add_doctor" class="btn btn-primary">Add Doctor</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
-                    <div class="mb-2">
-                        <label class="form-label">Address</label>
-                        <input type="text" name="address" class="form-control" required>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label">Specialization</label>
-                        <input type="text" name="specialization" class="form-control" required>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label">Experience (years)</label>
-                        <input type="number" name="experience" class="form-control" required>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" name="add_doctor" class="btn btn-primary">Add Doctor</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </main>
 
 <?php include('../includes/footer.php'); ?>
