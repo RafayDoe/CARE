@@ -61,7 +61,17 @@ $users = $conn->query("SELECT * FROM users");
 ?>
 
 <?php include('../includes/header.php'); ?>
+<style>
+    main {
+        min-height: 90vh;
+    }
 
+    .container {
+        text-align: center;
+    }
+</style>
+
+<main>
 <div class="container my-5">
     <h2 class="text-center mb-4 fw-bold text-secondary">Manage Users</h2>
 
@@ -195,5 +205,6 @@ $users = $conn->query("SELECT * FROM users");
         </div>
     </div>
 </div>
+</main>
 
 <?php include('../includes/footer.php'); ?>
