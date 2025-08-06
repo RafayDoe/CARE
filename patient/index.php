@@ -1,13 +1,16 @@
 <?php
-include('../includes/db.php');
-include('../includes/auth.php');
+session_start();
+require_once($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/db.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/auth.php");
 require_role(['patient']);
-include('../includes/header.php');
+include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/header.php");
+
+$userId = $_SESSION['user_id'] ?? null;
 ?>
 
 <style>
   .dashboard-bg {
-    background-image: url('../assets/bgcurve.png');
+    background-image: url('/CARE/assets/bgcurve.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -41,17 +44,16 @@ include('../includes/header.php');
           <i class="bi bi-calendar-plus display-4 text-tertiary mb-3"></i>
           <h5 class="fw-bold mb-2">Book Appointment</h5>
           <p class="text-muted">Easily schedule visits with available doctors.</p>
-          <a href="./book-appointment.php" class="btn btn-tertiary mt-3">Book Now</a>
+          <a href="/CARE/patient/book-appointment.php" class="btn btn-tertiary mt-3">Book Now</a>
         </div>
       </div>
-
 
       <div class="col-md-4" data-aos="zoom-in" data-aos-delay="150">
         <div class="card glass-card text-center border-0 h-100 p-4">
           <i class="bi bi-clock-history display-4 text-tertiary mb-3"></i>
           <h5 class="fw-bold mb-2">Your Appointments</h5>
           <p class="text-muted">Track upcoming or past visits and timings.</p>
-          <a href="./appointments.php" class="btn btn-tertiary mt-3">View</a>
+          <a href="/CARE/patient/appointments.php" class="btn btn-tertiary mt-3">View</a>
         </div>
       </div>
     </div>
@@ -59,23 +61,30 @@ include('../includes/header.php');
 </section>
 
 <?php
-$user_id = $_SESSION['user_id'];
+$patientStmt = $conn->prepare("SELECT id FROM patients WHERE user_id = ?");
+$patientStmt->bind_param("i", $userId);
+$patientStmt->execute();
+$patientResult = $patientStmt->get_result();
+$patient = $patientResult->fetch_assoc();
+$patientStmt->close();
 
-$upcomingQuery = "SELECT a.appointment_time, d.name AS doctor_name 
-                  FROM appointments a 
-                  JOIN doctors d ON a.doctor_id = d.id 
-                  WHERE a.patient_id = ? AND a.appointment_time > NOW() 
-                  ORDER BY a.appointment_time ASC LIMIT 1";
-
-$stmt = $conn->prepare($upcomingQuery);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$patientId = $patient['id'] ?? null;
+$upcomingStmt = $conn->prepare("
+    SELECT a.appointment_time, d.name AS doctor_name
+    FROM appointments a
+    JOIN doctors d ON a.doctor_id = d.id
+    WHERE a.patient_id = ? AND a.appointment_time > NOW()
+    ORDER BY a.appointment_time ASC
+    LIMIT 1
+");
+$upcomingStmt->bind_param("i", $patientId);
+$upcomingStmt->execute();
+$upcomingResult = $upcomingStmt->get_result();
 ?>
 
 <div class="mt-5" data-aos="fade-up">
-  <?php if ($result->num_rows > 0):
-    $row = $result->fetch_assoc(); ?>
+  <?php if ($upcomingResult->num_rows > 0):
+    $row = $upcomingResult->fetch_assoc(); ?>
     <div class="alert alert-info shadow-sm text-center" style="max-width: 600px; margin: 0 auto;">
       <strong>Upcoming Appointment:</strong>
       with <span class="text-primary"><?= htmlspecialchars($row['doctor_name']) ?></span> on
@@ -83,11 +92,10 @@ $result = $stmt->get_result();
     </div>
   <?php else: ?>
     <div class="alert alert-light border text-muted text-center" style="max-width: 600px; margin: 0 auto;">
-      No upcoming appointments. <a href="./book-appointment.php">Book one now</a>.
+      No upcoming appointments. <a href="/CARE/patient/book-appointment.php">Book one now</a>.
     </div>
   <?php endif; ?>
 </div>
-
 
 <div class="mt-5 text-center" data-aos="fade-in">
   <div class="card border-0 shadow-sm p-4 mx-auto" style="max-width: 600px;">
@@ -98,6 +106,4 @@ $result = $stmt->get_result();
   </div>
 </div>
 
-
-
-<?php include('../includes/footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/footer.php"); ?>

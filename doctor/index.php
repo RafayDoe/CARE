@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-include('../includes/db.php');
-include('../includes/header.php');
-
+include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/db.php");
+include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/header.php");
 
 if (!isset($_SESSION['user_id'])) {
     echo "<div class='alert alert-danger text-center'>Not logged in.</div>";
@@ -12,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-
+// Get doctor info
 $docStmt = $conn->prepare("SELECT id, name FROM doctors WHERE user_id = ?");
 $docStmt->bind_param("i", $user_id);
 $docStmt->execute();
@@ -27,13 +26,13 @@ $doctor = $docResult->fetch_assoc();
 $doctor_id = $doctor['id'];
 $doctor_name = $doctor['name'];
 
-
+// Get appointments
 $apptStmt = $conn->prepare("
     SELECT a.*, p.name AS patient_name 
-FROM appointments a
-JOIN patients p ON a.patient_id = p.id
-WHERE a.doctor_id = ?
-ORDER BY a.appointment_time ASC
+    FROM appointments a
+    JOIN patients p ON a.patient_id = p.id
+    WHERE a.doctor_id = ?
+    ORDER BY a.appointment_time ASC
 ");
 $apptStmt->bind_param("i", $doctor_id);
 $apptStmt->execute();
@@ -83,4 +82,4 @@ $appointments = $apptStmt->get_result();
     </div>
 </main>
 
-<?php include('../includes/footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/footer.php"); ?>

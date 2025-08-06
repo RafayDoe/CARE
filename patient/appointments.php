@@ -1,10 +1,9 @@
 <?php
 session_start();
-include('../includes/db.php');
-
+include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/db.php");
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'patient') {
-    header("Location: ../auth/login.php");
+    header("Location: /CARE/auth/login.php");
     exit;
 }
 
@@ -28,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['reschedule_id'])) {
     $stmt->execute();
     $message = "Appointment rescheduled successfully.";
 }
+
 $stmt = $conn->prepare("
     SELECT a.id, a.appointment_time, a.status, d.name AS doctor_name, d.specialization 
     FROM appointments a
@@ -35,13 +35,11 @@ $stmt = $conn->prepare("
     WHERE a.patient_id = ?
     ORDER BY a.appointment_time DESC
 ");
-
-
 $stmt->bind_param("i", $patient_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-include('../includes/header.php');
+include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/header.php");
 ?>
 
 <style>
@@ -57,8 +55,7 @@ include('../includes/header.php');
 <main>
     <div class="container my-5">
         <h2 class="mb-4 fw-bold text-secondary">My Appointments</h2>
-        <a href="./book-appointment.php" class="btn btn-primary mb-4">Book New Appointment</a>
-
+        <a href="/CARE/patient/book-appointment.php" class="btn btn-primary mb-4">Book New Appointment</a>
 
         <?php if ($message): ?>
             <div class="alert alert-success"><?php echo $message; ?></div>
@@ -104,4 +101,4 @@ include('../includes/header.php');
     </div>
 </main>
 
-<?php include('../includes/footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/footer.php"); ?>

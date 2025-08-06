@@ -1,14 +1,13 @@
 <?php
 session_start();
-include('../includes/db.php');
+include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/db.php");
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header('Location: ../auth/login.php');
+    header('Location: /CARE/auth/login.php');
     exit;
 }
 
 $message = "";
-
 
 if (isset($_GET['delete'])) {
     $userId = intval($_GET['delete']);
@@ -17,7 +16,6 @@ if (isset($_GET['delete'])) {
     $conn->query("DELETE FROM patients WHERE user_id = $userId");
     $message = "User deleted.";
 }
-
 
 if (isset($_POST['add_user'])) {
     $username = $_POST['username'];
@@ -42,7 +40,6 @@ if (isset($_POST['add_user'])) {
     }
 }
 
-
 if (isset($_POST['edit_user'])) {
     $id = $_POST['user_id'];
     $email = $_POST['edit_email'];
@@ -60,15 +57,10 @@ if (isset($_POST['edit_user'])) {
 $users = $conn->query("SELECT * FROM users");
 ?>
 
-<?php include('../includes/header.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/header.php"); ?>
 <style>
-    main {
-        min-height: 90vh;
-    }
-
-    .container {
-        text-align: center;
-    }
+    main { min-height: 90vh; }
+    .container { text-align: center; }
 </style>
 
 <main>
@@ -76,7 +68,7 @@ $users = $conn->query("SELECT * FROM users");
     <h2 class="text-center mb-4 fw-bold text-secondary">Manage Users</h2>
 
     <?php if ($message): ?>
-        <div class="alert alert-info text-center"> <?= $message ?> </div>
+        <div class="alert alert-info text-center"><?= $message ?></div>
     <?php endif; ?>
 
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">+ Add User</button>
@@ -102,10 +94,8 @@ $users = $conn->query("SELECT * FROM users");
                         <td><?= htmlspecialchars($u['phone']) ?></td>
                         <td><?= htmlspecialchars($u['address']) ?></td>
                         <td>
-                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#editModal<?= $u['id'] ?>">Edit</button>
-                            <a href="?delete=<?= $u['id'] ?>" onclick="return confirm('Delete this user?')"
-                                class="btn btn-sm btn-danger">Delete</a>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?= $u['id'] ?>">Edit</button>
+                            <a href="?delete=<?= $u['id'] ?>" onclick="return confirm('Delete this user?')" class="btn btn-sm btn-danger">Delete</a>
                         </td>
                     </tr>
 
@@ -133,8 +123,7 @@ $users = $conn->query("SELECT * FROM users");
                                         <select name="edit_role" class="form-control" required>
                                             <option value="admin" <?= $u['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
                                             <option value="doctor" <?= $u['role'] == 'doctor' ? 'selected' : '' ?>>Doctor</option>
-                                            <option value="patient" <?= $u['role'] == 'patient' ? 'selected' : '' ?>>Patient
-                                            </option>
+                                            <option value="patient" <?= $u['role'] == 'patient' ? 'selected' : '' ?>>Patient</option>
                                         </select>
                                     </div>
                                     <div class="mb-2">
@@ -207,4 +196,4 @@ $users = $conn->query("SELECT * FROM users");
 </div>
 </main>
 
-<?php include('../includes/footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/footer.php"); ?>

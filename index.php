@@ -1,5 +1,4 @@
-<?php include("./includes/header.php");
-?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/header.php"); ?>
 
 <section id="hero">
     <div class="container-fluid cover d-flex flex-column justify-content-center">
@@ -12,10 +11,10 @@
                     Empowering lives through accessible care.
                 </p>
                 <div data-aos="fade-up" data-aos-delay="400">
-                    <a href="/auth/register.php">
+                    <a href="/CARE/auth/register.php">
                         <button class="btn btn-tertiary me-1">Register</button>
                     </a>
-                    <a href="/auth/login.php">
+                    <a href="/CARE/auth/login.php">
                         <button class="btn btn-quaternary">Login</button>
                     </a>
                 </div>
@@ -28,9 +27,9 @@
 <section id="doctors" class="py-5">
   <div class="container py-5">
     <h2 class="text-center fw-bold mb-5">Find Doctors</h2>
-
+ 
     <?php
-    include('./includes/db.php');
+    include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/db.php");
 
     $query = "
       SELECT d.name, d.specialization, d.experience, d.image
@@ -58,7 +57,7 @@
 
             <div class="col-md-4 d-flex justify-content-center">
               <div class="card shadow-sm h-100">
-                <img src="/assets/<?= htmlspecialchars($row['image']) ?>" class="card-img-top"
+                <img src="/CARE/assets/<?= htmlspecialchars($row['image']) ?>" class="card-img-top"
                   alt="<?= htmlspecialchars($row['name']) ?>">
                 <div class="card-body">
                   <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
@@ -101,7 +100,7 @@
     <div class="container px-5">
         <div class="row align-items-center g-5">
             <div class="col-lg-6" data-aos="fade-up">
-                <img src="/assets/aboutimg.png" alt="About CARE" class="img-fluid rounded" />
+                <img src="/CARE/assets/aboutimg.png" alt="About CARE" class="img-fluid rounded" />
             </div>
             <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
                 <h2 class="fw-bold mb-4">About CARE</h2>
@@ -110,14 +109,10 @@
                     to everyone, anywhere.
                 </p>
                 <ul class="list-unstyled mt-4">
-                    <li class="mb-3"><i class="bi bi-check-circle-fill text-tertiary me-2"></i> Easy appointment booking
-                    </li>
-                    <li class="mb-3"><i class="bi bi-check-circle-fill text-tertiary me-2"></i> Secure prescriptions and
-                        history</li>
-                    <li class="mb-3"><i class="bi bi-check-circle-fill text-tertiary me-2"></i> Personalized experience
-                    </li>
-                    <li class="mb-3"><i class="bi bi-check-circle-fill text-tertiary me-2"></i> Efficient and modern
-                    </li>
+                    <li class="mb-3"><i class="bi bi-check-circle-fill text-tertiary me-2"></i> Easy appointment booking</li>
+                    <li class="mb-3"><i class="bi bi-check-circle-fill text-tertiary me-2"></i> Secure prescriptions and history</li>
+                    <li class="mb-3"><i class="bi bi-check-circle-fill text-tertiary me-2"></i> Personalized experience</li>
+                    <li class="mb-3"><i class="bi bi-check-circle-fill text-tertiary me-2"></i> Efficient and modern</li>
                 </ul>
                 <a href="#patient-controls" class="btn btn-tertiary mt-3">Get Started</a>
             </div>
@@ -137,7 +132,7 @@
                             <h5 class="card-title my-2">Book Appointments</h5>
                             <p class="card-text">Easily search and schedule appointments with verified doctors.</p>
                         </div>
-                        <a href="/auth/login.php" class="btn btn-tertiary w-100 mt-4">Book Now</a>
+                        <a href="/CARE/auth/login.php" class="btn btn-tertiary w-100 mt-4">Book Now</a>
                     </div>
                 </div>
             </div>
@@ -149,7 +144,7 @@
                             <h5 class="card-title my-2">View Prescriptions</h5>
                             <p class="card-text">Access your prescription history and treatment plans anytime.</p>
                         </div>
-                        <a href="/auth/login.php" class="btn btn-tertiary w-100 mt-4">Log In</a>
+                        <a href="/CARE/auth/login.php" class="btn btn-tertiary w-100 mt-4">Log In</a>
                     </div>
                 </div>
             </div>
@@ -168,23 +163,19 @@
                     difference.
                 </p>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-quaternary me-2"></i> Wider patient reach
-                    </li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-quaternary me-2"></i> Flexible online
-                        schedule</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-quaternary me-2"></i> Secure and reliable
-                        platform</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-quaternary me-2"></i> Free profile creation
-                    </li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-quaternary me-2"></i> Wider patient reach</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-quaternary me-2"></i> Flexible online schedule</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-quaternary me-2"></i> Secure and reliable platform</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-quaternary me-2"></i> Free profile creation</li>
                 </ul>
-                <a href="/doctor/register.php" class="btn btn-quaternary btn-lg mt-3">Join as Doctor</a>
+                <a href="/CARE/doctor/register.php" class="btn btn-quaternary btn-lg mt-3">Join as Doctor</a>
             </div>
             <div class="col-lg-6 text-center" data-aos="fade-left">
-                <img src="/assets/cta.png" alt="Join as Doctor" class="img-fluid rounded shadow-sm"
+                <img src="/CARE/assets/cta.png" alt="Join as Doctor" class="img-fluid rounded shadow-sm"
                     style="max-height: 350px;" />
             </div>
         </div>
     </div>
 </section>
 
-<?php include("./includes/footer.php") ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/footer.php"); ?>

@@ -1,16 +1,22 @@
 <?php
 session_start();
-require_once('../includes/db.php');
-include('../includes/header.php');
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'patient') {
+    header("Location: /CARE/auth/login.php");
+    exit;
+}
+
+require_once($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/db.php");
+include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/header.php");
 
 $successMsg = '';
 $errorMsg = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $doctorId = $_POST['doctor_id'] ?? '';
     $date = $_POST['date'] ?? '';
     $time = $_POST['time'] ?? '';
     $userId = $_SESSION['user_id'] ?? null;
-
 
     $getPatient = $conn->prepare("SELECT id FROM patients WHERE user_id = ?");
     $getPatient->bind_param("i", $userId);
@@ -41,15 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errorMsg = "Please complete all fields.";
     }
 }
-
-
-
 $doctors = [];
 $result = $conn->query("SELECT id, name, specialization, experience, image FROM doctors");
 if ($result && $result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $doctors[] = $row;
-  }
+    while ($row = $result->fetch_assoc()) {
+        $doctors[] = $row;
+    }
 }
 ?>
 
@@ -97,7 +100,7 @@ if ($result && $result->num_rows > 0) {
         <div class="col-md-4 mb-3 d-flex justify-content-center">
           <div class="card text-center p-2">
             <?php if (!empty($doc['image'])): ?>
-              <img src="../assets/<?= htmlspecialchars($doc['image']) ?>" class="card-img-top" alt="Doctor Image">
+              <img src="/CARE/assets/<?= htmlspecialchars($doc['image']) ?>" class="card-img-top" alt="Doctor Image">
             <?php endif; ?>
             <div class="card-body">
               <h5 class="card-title"><?= htmlspecialchars($doc['name']) ?></h5>
@@ -113,4 +116,4 @@ if ($result && $result->num_rows > 0) {
   </div>
 </div>
 
-<?php include('../includes/footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/CARE/includes/footer.php"); ?>
